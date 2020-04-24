@@ -1,10 +1,9 @@
-const Workout = require("../models/Workout");
-
-module.exports = function(app) {
+const router = require("express").Router();
+const Workout = require("../models/workout.js");
 
 
 // Get routes
-app.get("/api/workouts", (req, res) => {
+router.get("/api/workouts", (req, res) => {
   Workout.find({})
     .then(data => {
       res.json(data);
@@ -14,7 +13,7 @@ app.get("/api/workouts", (req, res) => {
     });
 });
 
-app.get("/api/workouts/range", (req, res) => {
+router.get("/api/workouts/range", (req, res) => {
   Workout.find({})
     .limit(7)
     .then(data => {
@@ -25,23 +24,9 @@ app.get("/api/workouts/range", (req, res) => {
     });
 });
 
-// Put routes
-app.put("/api/workouts/:id", (req, res) => {
-    Workout.findByIdAndUpdate(
-        req.params.id,
-        { 
-            $push: { exercises: req.body } 
-        },
-    ).then(data => {
-        res.json(data);
-      })
-      .catch(err => {
-        res.status(400).json(err);
-      });
-});
 
 // Post routes
-app.post("/api/workout", (req, res) => {
+router.post("/api/workouts", (req, res) => {
   Workout.create({})
   .then(data => {
     res.json(data);
@@ -52,16 +37,40 @@ app.post("/api/workout", (req, res) => {
 });
 
 
-app.post("/api/workout/range", (req, res) => {
-    Workout.create({})
-    .then(data => {
+// Put routes
+router.put("/api/workouts/:id", (req, res) => {
+  Workout.findByIdAndUpdate(
+      req.params.id,
+      { 
+          $push: { exercises: req.body } 
+      },
+  ).then(data => {
       res.json(data);
     })
     .catch(err => {
       res.status(400).json(err);
     });
+});
+
+// router.post("/api/workout/range", (req, res) => {
+//     Workout.create({})
+//     .then(data => {
+//       res.json(data);
+//     })
+//     .catch(err => {
+//       res.status(400).json(err);
+//     });
+//   });
+
+  // delete route
+  router.delete("/api/workouts", (req, res) => {
+      Workout.findByIdAndDelete(req.body.id)
+      .then(() => {
+          res.json(true);
+      })
+      .catch(err => {
+        res.status(400).json(err);
+      });
   });
 
-
-};
 module.exports = router;
