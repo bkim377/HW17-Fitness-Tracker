@@ -52,15 +52,6 @@ router.put("/api/workouts/:id", (req, res) => {
     });
 });
 
-// router.post("/api/workout/range", (req, res) => {
-//     Workout.create({})
-//     .then(data => {
-//       res.json(data);
-//     })
-//     .catch(err => {
-//       res.status(400).json(err);
-//     });
-//   });
 
   // delete route
   router.delete("/api/workouts", (req, res) => {

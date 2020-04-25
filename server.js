@@ -18,7 +18,7 @@ mongoose.connect(MONGODB_URI, {
   useFindAndModify: false
 });
 
-// routes
+// defining the routes to retrieve the HTML and API files
 app.use(require("./routes/api.js"));
 app.use(require("./routes/html.js"));
 
